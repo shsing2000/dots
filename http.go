@@ -7,8 +7,8 @@ import (
 	"html/template"
 	"image"
 	_ "image/gif"
-	_ "image/jpeg"
-	"image/png"
+	"image/jpeg"
+	_ "image/png"
 	"io"
 	"net/http"
 	"strconv"
@@ -23,7 +23,7 @@ type Image struct {
 	Data []byte
 }
 
-const maxImageSide = 1200
+const maxImageSide = 1000
 
 var templates = template.Must(template.ParseFiles("index.html", "edit.html", "error.html"))
 
@@ -77,7 +77,7 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 	}
 
 	buf.Reset()
-	if err := png.Encode(&buf, i); err != nil {
+	if err := jpeg.Encode(&buf, i, nil); err != nil {
 		serveError(w, r, err)
 		return
 	}
@@ -116,6 +116,7 @@ func serveImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//check for valid num dot range
 	dots := getInt(r.FormValue("dots"), 20)
 	img, err = drawDots(img, dots)
 	if err != nil {
@@ -129,7 +130,7 @@ func serveImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "image/jpeg")
+	w.Header().Set("Content-Type", "image/png")
 	b.WriteTo(w)
 }
 

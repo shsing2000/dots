@@ -21,6 +21,10 @@
 			imgDots$.attr('src', '/img?'+query);
 		}
 
+		numDots$.on('change', function(e) {
+			setImageURL();
+		});
+
 		setImageURL();
 	});
 	</script>
