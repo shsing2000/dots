@@ -7,8 +7,8 @@ import (
 	"html/template"
 	"image"
 	_ "image/gif"
-	_ "image/jpeg"
-	"image/png"
+	"image/jpeg"
+	_ "image/png"
 	"io"
 	"net/http"
 	"strconv"
@@ -77,7 +77,7 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 	}
 
 	buf.Reset()
-	if err := png.Encode(&buf, i); err != nil {
+	if err := jpeg.Encode(&buf, i, nil); err != nil {
 		serveError(w, r, err)
 		return
 	}
@@ -124,7 +124,7 @@ func serveImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	b := &bytes.Buffer{}
-	if err := png.Encode(b, img); err != nil {
+	if err := jpeg.Encode(b, img, nil); err != nil {
 		serveError(w, r, err)
 		return
 	}
