@@ -125,7 +125,7 @@ func serveImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	b := &bytes.Buffer{}
-	if err := png.Encode(b, img); err != nil {
+	if err := jpeg.Encode(b, img, nil); err != nil {
 		serveError(w, r, err)
 		return
 	}
